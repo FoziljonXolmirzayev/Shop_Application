@@ -1,10 +1,7 @@
-const Users = require("../modules/user/model");
-const {
-  validateSignInUser,
-  validateLoginUser,
-} = require("../modules/user/validators");
-const { comparePasswords } = require("../services/bcrypt");
-const { generateToken } = require("../services/jwt");
+const Users = require("../user/model");
+const { validateSignInUser, validateLoginUser } = require("../user/validators");
+const { comparePasswords } = require("../../services/bcrypt");
+const { generateToken } = require("../../services/jwt");
 
 module.exports.signUp = async (req, res) => {
   try {
@@ -33,7 +30,7 @@ module.exports.login = async (req, res) => {
     const { value, error } = validateLoginUser(req.body);
 
     if (error) {
-      res.send("Incorrect data: " + error);
+      res.status(400).send("Incorrect data: " + error);
       return;
     }
 
