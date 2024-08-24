@@ -20,8 +20,8 @@ module.exports.signUp = async (req, res) => {
       res.status(400).send("This email already exists! Choose another one.!");
       return;
     }
-    const { name, email } = await Users.create(value);
-    const token = generateToken(signedUser._id);
+    const { name, email, _id } = await Users.create(value);
+    const token = generateToken(_id);
     res.send({ token, user: { name, email } });
   } catch (error) {
     throw new Error(error);
@@ -39,8 +39,8 @@ module.exports.login = async (req, res) => {
 
     const foundUser = await Users.findOne({ email: value.email });
     const isPasswordCorrect = await comparePasswords(
-      foundUser.password,
-      value.password
+      value.password,
+      foundUser.password
     );
 
     if (!isPasswordCorrect) {
