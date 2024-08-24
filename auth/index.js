@@ -17,7 +17,7 @@ module.exports.signUp = async (req, res) => {
 
     const foundUser = await Users.findOne({ email: value.email });
     if (foundUser) {
-      res.send("This email already exists! Choose another one.!");
+      res.status(400).send("This email already exists! Choose another one.!");
       return;
     }
     const { name, email } = await Users.create(value);
