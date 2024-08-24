@@ -8,7 +8,7 @@ const userRoute = require("./routes/user");
 const authRoute = require("./routes/auth");
 const { required } = require("joi");
 
-const PORT = 5000;
+const PORT = 8000;
 app.use(cors());
 app.use(express.json());
 
@@ -20,6 +20,6 @@ app.listen(PORT);
 mongoose
   .connect("mongodb://localhost:27017/test_shop_application")
   .then(() => {
-    console.log("Database is connected !");
+    console.log("Project is running on " + PORT);
   })
   .catch(console.log());
