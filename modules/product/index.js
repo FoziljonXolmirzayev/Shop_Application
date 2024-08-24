@@ -26,7 +26,10 @@ module.exports.getProducts = async (req, res) => {
 };
 module.exports.updateProduct = async (req, res) => {
   try {
-    console.log(req.params.id, req.body);
+    if (!req.params.id || req.params.id == ":id") {
+      res.status(400).send("Incorrect data !");
+      return;
+    }
     const updatedProduct = await Products.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -34,6 +37,7 @@ module.exports.updateProduct = async (req, res) => {
     );
     if (!updatedProduct) {
       res.send("Product is not found !");
+      return;
     }
     res.send(updatedProduct);
   } catch (error) {
@@ -42,7 +46,15 @@ module.exports.updateProduct = async (req, res) => {
 };
 module.exports.deleteProduct = async (req, res) => {
   try {
+    if (!req.params.id || req.params.id == ":id") {
+      res.status(400).send("Incorrect data !");
+      return;
+    }
     const deletedProduct = await Products.findByIdAndDelete(req.params.id);
+    if (!deletedProduct) {
+      res.send("Product is not found !");
+      return;
+    }
     res.send(deletedProduct);
   } catch (error) {
     throw new Error(error);
