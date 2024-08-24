@@ -20,9 +20,9 @@ module.exports.signUp = async (req, res) => {
       res.send("This email already exists! Choose another one.!");
       return;
     }
-    const signedUser = await Users.create(value);
+    const { name, email } = await Users.create(value);
     const token = generateToken(signedUser._id);
-    res.send(token);
+    res.send({ token, user: { name, email } });
   } catch (error) {
     throw new Error(error);
   }
