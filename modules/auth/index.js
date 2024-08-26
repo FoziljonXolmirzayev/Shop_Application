@@ -35,6 +35,12 @@ module.exports.login = async (req, res) => {
     }
 
     const foundUser = await Users.findOne({ email: value.email });
+
+    if (!foundUser) {
+      res.status(404).send("User not found!");
+      return;
+    }
+
     const isPasswordCorrect = await comparePasswords(
       value.password,
       foundUser.password
@@ -46,7 +52,7 @@ module.exports.login = async (req, res) => {
     }
 
     const token = generateToken(value._id);
-    res.status(200).send(token);
+    res.send({ token, user: { name: foundUser.name, email: foundUser.email } });
   } catch (error) {
     throw new Error(error);
   }
